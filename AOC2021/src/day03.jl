@@ -17,7 +17,7 @@ function binary_string_to_bool_array(binary_string::String)
     map(x -> parse(Bool, x), bits)
 end
 
-binary_to_int(x::String) = parse(Int, "0b" * x)
+bitstring_to_int(x::String) = parse(Int, "0b" * x)
 
 # Part 1
 
@@ -30,10 +30,10 @@ function part1()
         join(_[1, :], "") # extract first (and only) row and join to a string
     end
 
-    gamma = binary_to_int(gamma_bitstring)
+    gamma = bitstring_to_int(gamma_bitstring)
     # Equivalent to flipping the least significant bits
     epsilon_bitstring = last(bitstring(~gamma), length(gamma_bitstring))
-    epsilon = binary_to_int(epsilon_bitstring)
+    epsilon = bitstring_to_int(epsilon_bitstring)
 
     gamma * epsilon
 end
@@ -56,7 +56,7 @@ function part2()
     # extract first (and only) row and join to a string
     oxygen_remaining_row = map(b -> Int(b), oxygen_matrix[1, :])
     oxygen_bitstring = join(oxygen_remaining_row, "")
-    oxygen = binary_to_int(oxygen_bitstring)
+    oxygen = bitstring_to_int(oxygen_bitstring)
 
     co2_matrix = transpose(hcat(input_arrays...))
     column = 1
@@ -71,7 +71,7 @@ function part2()
     # extract first (and only) row and join to a string
     co2_remaining_row = map(b -> Int(b), co2_matrix[1, :])
     co2_bitstring = join(co2_remaining_row, "")
-    co2 = binary_to_int(co2_bitstring)
+    co2 = bitstring_to_int(co2_bitstring)
 
     oxygen * co2
 end
