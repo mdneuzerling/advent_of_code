@@ -40,38 +40,35 @@ end
 
 # Part 2
 
+function gas_rate(input::Vector{String}, rounding_function::Function)
+    input_arrays = map(x -> binary_string_to_bool_array(x), input)
+
+    gas_matrix = transpose(hcat(input_arrays...))
+    column = 1
+    while size(gas_matrix)[1] > 1
+        average_value = mean(gas_matrix[:, column])
+        target_bit = rounding_function(average_value)
+        row_indices_to_keep = filter(i -> gas_matrix[i, column] == target_bit, 1:size(gas_matrix)[1])
+        gas_matrix = gas_matrix[row_indices_to_keep, :]
+        column += 1
+    end
+
+    # extract first (and only) row and join to a string
+    remaining_row = map(b -> Int(b), gas_matrix[1, :])
+    gas_bitstring = join(remaining_row, "")
+    bitstring_to_int(gas_bitstring)
+end
+
 function part2()
-    input_arrays = map(x -> binary_string_to_bool_array(x), INPUT)
+    oxygen = gas_rate(
+        INPUT,
+        x -> round(Int, x, RoundNearestTiesUp)
+    )
 
-    oxygen_matrix = transpose(hcat(input_arrays...))
-    column = 1
-    while size(oxygen_matrix)[1] > 1
-        average_value = mean(oxygen_matrix[:, column])
-        most_common_bit = round(Int, average_value, RoundNearestTiesUp)
-        row_indices_to_keep = filter(i -> oxygen_matrix[i, column] == most_common_bit, 1:size(oxygen_matrix)[1])
-        oxygen_matrix = oxygen_matrix[row_indices_to_keep, :]
-        column += 1
-    end
-
-    # extract first (and only) row and join to a string
-    oxygen_remaining_row = map(b -> Int(b), oxygen_matrix[1, :])
-    oxygen_bitstring = join(oxygen_remaining_row, "")
-    oxygen = bitstring_to_int(oxygen_bitstring)
-
-    co2_matrix = transpose(hcat(input_arrays...))
-    column = 1
-    while size(co2_matrix)[1] > 1
-        average_value = mean(co2_matrix[:, column])
-        least_common_bit = round(Int, (1 - average_value), RoundNearest) # will round down
-        row_indices_to_keep = filter(i -> co2_matrix[i, column] == least_common_bit, 1:size(co2_matrix)[1])
-        co2_matrix = co2_matrix[row_indices_to_keep, :]
-        column += 1
-    end
-
-    # extract first (and only) row and join to a string
-    co2_remaining_row = map(b -> Int(b), co2_matrix[1, :])
-    co2_bitstring = join(co2_remaining_row, "")
-    co2 = bitstring_to_int(co2_bitstring)
+    co2 = gas_rate(
+        INPUT,
+        x -> round(Int, (1 - x), RoundNearest) # will round down
+    )
 
     oxygen * co2
 end
