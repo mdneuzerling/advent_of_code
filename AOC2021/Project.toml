@@ -1,0 +1,8 @@
+name = "AOC2021"
+uuid = "1f746b46-950f-4eb2-9c4b-9e5b7ff9eff7"
+authors = ["mdneuzerling <david@neuzerling.com>"]
+version = "0.1.0"
+
+[deps]
+Chain = "8be319e6-bccf-4806-a6f7-6fae938471bc"
+ShiftedArrays = "1277b4bf-5013-50f5-be3d-901d8477a67a"
