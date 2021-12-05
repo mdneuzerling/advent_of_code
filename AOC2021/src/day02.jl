@@ -1,11 +1,11 @@
 module Day02
 
-import ..DATA_DIR # from parent module
+import ..data_dir # from parent module
 
 export part1, part2
 
-const DATA_FILE = joinpath(DATA_DIR, "day02")
-const INPUT = readlines(DATA_FILE) # read into an array, each line is an element
+const data_file = joinpath(data_dir, "day02")
+const input = readlines(data_file) # read into an array, each line is an element
 
 # This solution is going to be a lot longer than needed. I want to explore the
 # use of structs and generic functions, and the relationship between "command"
@@ -17,7 +17,7 @@ const INPUT = readlines(DATA_FILE) # read into an array, each line is an element
 
 ## Shared code for part 1 and 2
 
-VALID_MANOEUVRES = ["forward", "up", "down"]
+valid_manoeuvres = ["forward", "up", "down"]
 
 # Location is the abstract supertype of Location1 and Location2
 abstract type Location end
@@ -41,7 +41,7 @@ function manoeuvre!(loc::Location, command::String)
     command_split = split(command, " ")
 
     manoeuvre_direction = command_split[1]
-    if manoeuvre_direction ∉ VALID_MANOEUVRES
+    if manoeuvre_direction ∉ valid_manoeuvres
         throw(ArgumentError(
             manoeuvre_direction *
             "is not a valid direction. Must be one of: " *
@@ -78,7 +78,7 @@ end
 
 function part1()
     l1 = Location1()
-    for command in INPUT
+    for command in input
         manoeuvre!(l1, command)
     end
     aoc_answer(l1)
@@ -109,7 +109,7 @@ end
 
 function part2()
     l2 = Location2()
-    for command in INPUT
+    for command in input
         manoeuvre!(l2, command)
     end
     aoc_answer(l2)

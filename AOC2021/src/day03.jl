@@ -3,12 +3,12 @@ module Day03
 using Chain
 using Statistics
 
-import ..DATA_DIR # from parent module
+import ..data_dir # from parent module
 
 export part1, part2
 
-const DATA_FILE = joinpath(DATA_DIR, "day03")
-const INPUT = readlines(DATA_FILE) # read into an array, each line is an element
+const data_file = joinpath(data_dir, "day03")
+const input = readlines(data_file) # read into an array, each line is an element
 
 # Shared code between parts 1 and 2
 
@@ -22,7 +22,7 @@ bitstring_to_int(x::String) = parse(Int, "0b" * x)
 # Part 1
 
 function part1()
-    gamma_bitstring = @chain INPUT begin
+    gamma_bitstring = @chain input begin
         map(x -> binary_string_to_bool_array(x), _) # take input as array of arrays
         transpose(hcat(_...)) # convert to matrix and transpose to rows * columns
         mean(_, dims = 1) # take column-wise means
@@ -61,12 +61,12 @@ end
 
 function part2()
     oxygen = gas_rate(
-        INPUT,
+        input,
         x -> round(Int, x, RoundNearestTiesUp)
     )
 
     co2 = gas_rate(
-        INPUT,
+        input,
         x -> round(Int, (1 - x), RoundNearest) # will round down
     )
 

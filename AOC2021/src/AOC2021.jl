@@ -1,10 +1,11 @@
 module AOC2021
 
-const DATA_DIR = normpath(joinpath(@__FILE__, "..", "..", "data"))
+const data_dir = normpath(joinpath(@__FILE__, "..", "..", "data"))
 
 include("day01.jl")
 include("day02.jl")
 include("day03.jl")
+include("day04.jl")
 
 export solve
 
