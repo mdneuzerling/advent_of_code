@@ -2,13 +2,17 @@ module AOC2021
 
 const data_dir = normpath(joinpath(@__FILE__, "..", "..", "data"))
 
-days = filter(
-    f -> isfile("src/$f"),
-    ["day" * lpad(day, 2, "0") * ".jl" for day = 1:25]
-)
+const PKGDIR = pkgdir(AOC2021)
+src_path(day::AbstractString) = joinpath(PKGDIR, "src", "$day.jl")
 
-for day in days
-    include(day)
+const DAYS = ["day" * lpad(day, 2, "0") for day = 1:25]
+const SRC_PATHS = let
+  paths = src_path.(DAYS)
+  existing_paths = filter(isfile, paths)
+end
+
+for path in SRC_PATHS
+    include(path)
 end
 
 export solve
