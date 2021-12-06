@@ -7,8 +7,8 @@ src_path(day::AbstractString) = joinpath(PKGDIR, "src", "$day.jl")
 
 const DAYS = ["day" * lpad(day, 2, "0") for day = 1:25]
 const SRC_PATHS = let
-  paths = src_path.(DAYS)
-  existing_paths = filter(isfile, paths)
+    paths = src_path.(DAYS)
+    existing_paths = filter(isfile, paths)
 end
 
 for path in SRC_PATHS
