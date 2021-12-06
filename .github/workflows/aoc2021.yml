@@ -17,7 +17,7 @@ jobs:
           version: 1.7
       - uses: julia-actions/julia-buildpkg@latest
         with: 
-          project: "@./AOC2021"
+          project: "AOC2021"
       - uses: julia-actions/julia-runtest@latest
         with: 
-          project: "@./AOC2021"
+          project: "AOC2021"
