@@ -16,7 +16,7 @@ export solve
 function solve(day::Int64, part::Int64)
     module_string = "Day" * lpad(day, 2, "0")
     part_string = string(part)
-    module_and_part_string = module_string * ".part" * part_string
+    module_and_part_string = module_string * ".part" * part_string * "()"
     eval(Meta.parse(module_and_part_string))
 end
 
