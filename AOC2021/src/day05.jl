@@ -1,6 +1,6 @@
 module Day05
 
-import Base.show
+import Base.show, Base.string
 import ..data_dir # from parent module
 
 export part1, part2
@@ -10,11 +10,15 @@ struct Point
     y::Int64
 end
 
-function show(io::IO, point::Point)
-    println(io, "$(point.x),$(point.y)")
+function string(point::Point)
+    "$(point.x),$(point.y)"
 end
 
-function Point(point_defn::String)
+function show(io::IO, point::Point)
+    println(io, string(point))
+end
+
+function Point(point_defn::AbstractString)
     x_string, y_string = split(point_defn, ",")
     x, y = parse(Int64, x_string), parse(Int64, y_string)
     Point(x, y)
@@ -25,13 +29,17 @@ struct Line
     b::Point
 end
 
-function show(io::IO, line::Line)
-    println(io, "$(line.a.x),$(line.a.y) -> $(line.b.x),$(line.b.y)")
+function string(line::Line)
+    "$(string(line.a)) -> $(string(line.b))"
 end
 
-function Line(line_defn::String)
+function show(io::IO, line::Line)
+    println(io, string(line))
+end
+
+function Line(line_defn::AbstractString)
     point_defns = split(line_defn, " -> ")
-    a_string, b_string = string(point_defns[1]), string(point_defns[2])
+    a_string, b_string = point_defns[1], point_defns[2]
     a, b = Point(a_string), Point(b_string)
     Line(a, b)
 end
