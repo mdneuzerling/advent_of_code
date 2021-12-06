@@ -1,4 +1,4 @@
-name: Run tests
+name: Run tests for AOC2021
 
 on:
   push:
@@ -16,4 +16,8 @@ jobs:
         with:
           version: 1.7
       - uses: julia-actions/julia-buildpkg@latest
+        with: 
+          project: AOC2021
       - uses: julia-actions/julia-runtest@latest
+        with: 
+          project: AOC2021
