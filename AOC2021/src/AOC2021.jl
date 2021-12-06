@@ -7,6 +7,8 @@ days = filter(
     ["day" * lpad(day, 2, "0") * ".jl" for day = 1:25]
 )
 
+@show days
+
 for day in days
     include(day)
 end
