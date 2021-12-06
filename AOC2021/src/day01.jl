@@ -11,7 +11,7 @@ const data_file = joinpath(data_dir, "day01")
 const input = readlines(data_file) # read into an array, each line is an element
 
 # PART 1 
-part1 = function ()
+function part1(; input = input)
     @chain input begin
         map(x -> parse(Int32, x), _) # convert strings to integers
         _ .- lag(_) # compute difference with previous value
@@ -22,7 +22,7 @@ part1 = function ()
 end
 
 # PART 2
-part2 = function ()
+function part2(; input = input)
     @chain input begin
         map(x -> parse(Int32, x), _) # convert strings to integers
         _ + lag(_) + lag(_, 2) # compute the sum of each value with its previous 2

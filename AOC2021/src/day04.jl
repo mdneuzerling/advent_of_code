@@ -88,27 +88,33 @@ end
 # Parse the input 
 const data_file = joinpath(data_dir, "day04")
 const input = readlines(data_file) # read into an array, each line is an element
-const numbers = map(x -> parse(Int, x), split(input[1], ","))
-const input_without_numbers = filter(x -> x != "", input)[2:end]
-const board_inputs = [
-    input_without_numbers[i:i+4]
-    for i in range(1, Int(length(input_without_numbers)), step = bingo_board_size)
-]
-const bingo_boards = [BingoBoard(x) for x in board_inputs]
+
+function extract_numbers_and_boards(input)
+    numbers = map(x -> parse(Int, x), split(input[1], ","))
+    input_without_numbers = filter(x -> x != "", input)[2:end]
+    board_inputs = [
+        input_without_numbers[i:i+4]
+        for i in range(1, Int(length(input_without_numbers)), step = bingo_board_size)
+    ]
+    bingo_boards = [BingoBoard(x) for x in board_inputs]
+    numbers, bingo_boards
+end
 
 """
 Iterate through all of the numbers until a winning game is identified, then stop.
 If multiple games win in a single round, we take the first in the array.
 """
-function part1()
-    println("Let's play Bingo!\n")
+function part1(; input = input, silent = false)
+    numbers, bingo_boards = extract_numbers_and_boards(input)
     games = [BingoGame(board) for board in bingo_boards]
     winning_game = nothing
     number_index = 0
     while isnothing(winning_game)
         number_index += 1
         number = numbers[number_index]
-        println("Turn " * string(number_index) * " with number " * string(number))
+        if !silent
+            println("Turn " * string(number_index) * " with number " * string(number))
+        end
         for game in games
             update!(game, number)
             # Don't check for a win before turn 5
@@ -118,10 +124,14 @@ function part1()
             end
         end
     end
-    println()
-    println("Winner with score " * string(score(winning_game, numbers[number_index])))
-    println()
-    winning_game
+    winning_score = score(winning_game, numbers[number_index])
+    if !silent
+        println()
+        println("Winner with score " * string(winning_score))
+        println(winning_game)
+        println()
+    end
+    winning_score
 end
 
 """
@@ -131,15 +141,17 @@ Then we remove all winning games and continue until all of the games are won. Th
 we're constantly updating _winning_game_ with the most recent victory, and the last
 iteration of the `while` loop will evaluate the last games to win.
 """
-function part2()
-    println("Let's play Bingo!\n")
+function part2(; input = input, silent = false)
+    numbers, bingo_boards = extract_numbers_and_boards(input)
     games = [BingoGame(board) for board in bingo_boards]
     winning_game = nothing
     number_index = 0
     while length(games) > 0
         number_index += 1
         number = numbers[number_index]
-        println("Turn " * string(number_index) * " with number " * string(number))
+        if !silent
+            println("Turn " * string(number_index) * " with number " * string(number))
+        end
         for game in games
             update!(game, number)
         end
@@ -152,10 +164,14 @@ function part2()
         end
         games = games[(!has_won).(games)]
     end
-    println()
-    println("Winner with score " * string(score(winning_game, numbers[number_index])))
-    println()
-    winning_game
+    winning_score = score(winning_game, numbers[number_index])
+    if !silent
+        println()
+        println("Winner with score " * string(winning_score))
+        println(winning_game)
+        println()
+    end
+    winning_score
 end
 
 end # module

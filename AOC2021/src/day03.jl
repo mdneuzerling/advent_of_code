@@ -21,7 +21,7 @@ bitstring_to_int(x::String) = parse(Int, "0b" * x)
 
 # Part 1
 
-function part1()
+function part1(; input = input)
     gamma_bitstring = @chain input begin
         map(x -> binary_string_to_bool_array(x), _) # take input as array of arrays
         transpose(hcat(_...)) # convert to matrix and transpose to rows * columns
@@ -59,7 +59,7 @@ function gas_rate(input::Vector{String}, rounding_function::Function)
     bitstring_to_int(gas_bitstring)
 end
 
-function part2()
+function part2(; input = input)
     oxygen = gas_rate(
         input,
         x -> round(Int, x, RoundNearestTiesUp)
