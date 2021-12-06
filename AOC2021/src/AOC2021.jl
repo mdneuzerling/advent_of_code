@@ -11,8 +11,6 @@ const SRC_PATHS = let
   existing_paths = filter(isfile, paths)
 end
 
-@show SRC_PATHS
-
 for path in SRC_PATHS
     include(path)
 end
