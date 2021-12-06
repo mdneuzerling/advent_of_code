@@ -1,4 +1,4 @@
-name: Run tests for AOC2021
+name: AOC2021
 
 on:
   push:
