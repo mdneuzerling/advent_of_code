@@ -13,8 +13,7 @@ const input = readlines(data_file) # read into an array, each line is an element
 # Shared code between parts 1 and 2
 
 function binary_string_to_bool_array(binary_string::String)
-    bits = split(binary_string, "")
-    map(x -> parse(Bool, x), bits)
+    parse.(Bool, split(binary_string, ""))
 end
 
 bitstring_to_int(x::String) = parse(Int, "0b" * x)
@@ -41,7 +40,7 @@ end
 # Part 2
 
 function gas_rate(input::Vector{String}, rounding_function::Function)
-    input_arrays = map(x -> binary_string_to_bool_array(x), input)
+    input_arrays = binary_string_to_bool_array.(input)
 
     gas_matrix = transpose(hcat(input_arrays...))
     column = 1
@@ -54,7 +53,7 @@ function gas_rate(input::Vector{String}, rounding_function::Function)
     end
 
     # extract first (and only) row and join to a string
-    remaining_row = map(b -> Int(b), gas_matrix[1, :])
+    remaining_row = Int.(gas_matrix[1, :])
     gas_bitstring = join(remaining_row, "")
     bitstring_to_int(gas_bitstring)
 end
