@@ -51,7 +51,7 @@ end
 """
 I think this is an appropriate name? We're summing an arithmetic sequence.
 """
-arithmetic_fuel_cost(movement::Int64) = sum(1:movement)
+arithmetic_fuel_cost(movement::Int64) = movement * (movement + 1) / 2
 
 function part2(input = input)
     positions = [parse(Int64, position) for position in split(input, ",")]
