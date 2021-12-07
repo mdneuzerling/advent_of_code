@@ -43,7 +43,7 @@ function brute_force(positions::Vector{Int64}, fuel_cost_function::Function = id
     Integer(minimum_fuel)
 end
 
-function part1(; input = input)
+function part1(input = input)
     positions = [parse(Int64, position) for position in split(input, ",")]
     brute_force(positions)
 end
@@ -53,7 +53,7 @@ I think this is an appropriate name? We're summing an arithmetic sequence.
 """
 arithmetic_fuel_cost(movement::Int64) = sum(1:movement)
 
-function part2(; input = input)
+function part2(input = input)
     positions = [parse(Int64, position) for position in split(input, ",")]
     brute_force(positions, arithmetic_fuel_cost)
 end

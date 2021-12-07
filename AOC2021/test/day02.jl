@@ -15,10 +15,10 @@ test_input = [string(x) for x in split(test_input_raw, "\n")]
 
 @testset "Day 02" begin
     @testset "part 1" begin
-        @test part1(; input = test_input) == 150
+        @test part1(test_input) == 150
     end
     @testset "part 2" begin
-        @test part2(; input = test_input) == 900
+        @test part2(test_input) == 900
     end
 end
 

@@ -104,7 +104,7 @@ end
 Iterate through all of the numbers until a winning game is identified, then stop.
 If multiple games win in a single round, we take the first in the array.
 """
-function part1(; input = input, silent = false)
+function part1(input = input; silent = false)
     numbers, bingo_boards = extract_numbers_and_boards(input)
     games = [BingoGame(board) for board in bingo_boards]
     winning_game = nothing
@@ -141,7 +141,7 @@ Then we remove all winning games and continue until all of the games are won. Th
 we're constantly updating _winning_game_ with the most recent victory, and the last
 iteration of the `while` loop will evaluate the last games to win.
 """
-function part2(; input = input, silent = false)
+function part2(input = input; silent = false)
     numbers, bingo_boards = extract_numbers_and_boards(input)
     games = [BingoGame(board) for board in bingo_boards]
     winning_game = nothing

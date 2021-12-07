@@ -10,10 +10,10 @@ test_input = test_input_raw # no transformation needed here
 
 @testset "Day 07" begin
     @testset "part 1" begin
-        @test part1(; input = test_input) == 37
+        @test part1(test_input) == 37
     end
     @testset "part 2" begin
-        @test part2(; input = test_input) == 168
+        @test part2(test_input) == 168
     end
 end
 

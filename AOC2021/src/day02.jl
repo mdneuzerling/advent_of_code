@@ -76,7 +76,7 @@ function down!(loc::Location1, x::Int64)
     loc.depth += x
 end
 
-function part1(; input = input)
+function part1(input = input)
     l1 = Location1()
     for command in input
         manoeuvre!(l1, command)
@@ -107,7 +107,7 @@ function forward!(loc::Location2, x::Int64)
     loc.depth = loc.depth < 0 ? 0 : loc.depth
 end
 
-function part2(; input = input)
+function part2(input = input)
     l2 = Location2()
     for command in input
         manoeuvre!(l2, command)

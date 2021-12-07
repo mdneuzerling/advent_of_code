@@ -118,12 +118,12 @@ const data_file = joinpath(data_dir, "day05")
 const input = readlines(data_file) # read into an array, each line is an element
 const lines = [Line(i) for i in input]
 
-function part1(; input = input)
+function part1(input = input)
     lines = [Line(i) for i in input]
     no_diagonals = [line for line in lines if is_horizontal(line) || is_vertical(line)]
     count_multiple_occurrences(no_diagonals)
 end
-function part2(; input = input)
+function part2(input = input)
     lines = [Line(i) for i in input]
     count_multiple_occurrences(lines)
 end

@@ -38,12 +38,12 @@ function count_after_aging(days_to_spawn::Vector{Int64}, days::Int64)
     sum(aged)
 end
 
-function part1(; input = input)
+function part1(input = input)
     days_to_spawn = collect_days_to_spawn(input)
     count_after_aging(days_to_spawn, 80)
 end
 
-function part2(; input = input)
+function part2(input = input)
     days_to_spawn = collect_days_to_spawn(input)
     count_after_aging(days_to_spawn, 256)
 end
