@@ -32,7 +32,7 @@ end
 function risk_level(heatmap::Matrix{Int64}, row::Int64, column::Int64)
     value = heatmap[row, column] # matrices are indexed row then column
     if value == 9
-        return (false)
+        return (0)
     end
     neighbours = identify_neighbours(heatmap, row, column)
     is_minimum = all(value < heatmap[neighbour...] for neighbour in neighbours)
@@ -73,7 +73,11 @@ function part1(input = input)
 end
 
 """
-I think the key component here is every element (except 9) is in exactly one basin
+Two things make this second part manageable:
+
+* I didn't need to consider the actual values of the heatmap,
+    as long as I knew which ones were 9 and which ones aren't
+* Every non-9 element of the heatmap is in exactly one basin
 """
 function part2(input = input)
     heatmap = string_block_to_matrix(input)
