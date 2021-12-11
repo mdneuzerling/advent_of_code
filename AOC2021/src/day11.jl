@@ -30,7 +30,7 @@ function neighbours(coordinates::CartesianIndex{2})
     [CartesianIndex(p...) for p in in_bounds]
 end
 
-function neighbours_matrix(coordinate::CartesianIndex{2})
+function neighbourhood(coordinate::CartesianIndex{2})
     as_matrix = zeros(Int64, matrix_size, matrix_size)
     for neighbour in neighbours(coordinate)
         as_matrix[neighbour] = 1
@@ -38,8 +38,8 @@ function neighbours_matrix(coordinate::CartesianIndex{2})
     as_matrix
 end
 
-function neighbours_matrix(coordinates::Vector{CartesianIndex{2}})
-    sum(neighbours_matrix.(coordinates))
+function neighbourhood(coordinates::Vector{CartesianIndex{2}})
+    sum(neighbourhood.(coordinates))
 end
 
 increment(octopuses::Matrix{Int64}) = octopuses .+ 1
@@ -54,7 +54,7 @@ function flash(
     if length(new_flashes) == 0
         return rollover(octopuses), flashed
     end
-    octopuses += neighbours_matrix(new_flashes)
+    octopuses += neighbourhood(new_flashes)
     return flash(octopuses, [flashed; new_flashes])
 end
 
