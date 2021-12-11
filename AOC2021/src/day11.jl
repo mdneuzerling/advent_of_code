@@ -55,7 +55,7 @@ function flash(
         return rollover(octopuses), flashed
     end
     octopuses += neighbours_matrix(new_flashes)
-    octopuses, flashed = flash(octopuses, [flashed; new_flashes])
+    return flash(octopuses, [flashed; new_flashes])
 end
 
 step(octopuses::Matrix{Int64}) = octopuses |> increment |> flash
