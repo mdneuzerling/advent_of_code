@@ -42,7 +42,7 @@ function neighbours_matrix(coordinates::Vector{CartesianIndex{2}})
     sum(neighbours_matrix.(coordinates))
 end
 
-increment(octopuses::Matrix{Int64}) = octopuses + ones(Int64, size(octopuses)...)
+increment(octopuses::Matrix{Int64}) = octopuses .+ 1
 rollover(x::Int64) = mod(min(x, 10), 10)
 rollover(octopuses::Matrix{Int64}) = rollover.(octopuses)
 
