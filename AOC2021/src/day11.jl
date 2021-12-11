@@ -43,8 +43,7 @@ function neighbours_matrix(coordinates::Vector{CartesianIndex{2}})
 end
 
 increment(octopuses::Matrix{Int64}) = octopuses .+ 1
-rollover(x::Int64) = mod(min(x, 10), 10)
-rollover(octopuses::Matrix{Int64}) = rollover.(octopuses)
+rollover(octopuses::Matrix{Int64}) = @. mod(min(octopuses, 10), 10)
 
 function flash(
     octopuses::Matrix{Int64},
