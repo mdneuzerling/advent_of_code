@@ -46,11 +46,13 @@ increment(octopuses::Matrix{Int64}) = octopuses + ones(Int64, size(octopuses)...
 rollover(x::Int64) = mod(min(x, 10), 10)
 rollover(octopuses::Matrix{Int64}) = rollover.(octopuses)
 
-function flash(octopuses::Matrix{Int64}, flashed::Vector{CartesianIndex{2}} = Vector{CartesianIndex{2}}())
+function flash(
+    octopuses::Matrix{Int64},
+    flashed::Vector{CartesianIndex{2}} = Vector{CartesianIndex{2}}()
+)
     above_9 = findall(x -> x > 9, octopuses)
     new_flashes = above_9[(!in).(above_9, Ref(flashed))]
     if length(new_flashes) == 0
-        octopuses = rollover(octopuses)
         return rollover(octopuses), flashed
     end
     octopuses += neighbours_matrix(new_flashes)
