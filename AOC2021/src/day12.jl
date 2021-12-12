@@ -32,55 +32,53 @@ end
 
 cave_size(vertex::String) = uppercase(vertex) == vertex ? "large" : "small"
 
-function traverse1(
+function has_visited_a_small_cave_twice(path::Vector{String})
+    small_caves = filter(vertex -> lowercase(vertex) == vertex, path)
+    unique(small_caves) != small_caves
+end
+
+function traverse(
     graph::Graph,
     path_so_far = Vector{String}(),
-    next_vertex = "start"
+    next_vertex = "start";
+    allow_small_cave_revisit = false
 )
     updated_path = [path_so_far; next_vertex]
     if next_vertex == "end"
         return Set([updated_path])
     end
-    valid_neighbours = filter(
-        candidate -> cave_size(candidate) == "large" || candidate ∉ updated_path,
-        neighbours(graph, next_vertex)
-    )
-    if length(valid_neighbours) == 0 # dead end
-        return Set{Vector{String}}()
+    if allow_small_cave_revisit && has_visited_a_small_cave_twice(updated_path)
+        return traverse(graph, path_so_far, next_vertex; allow_small_cave_revisit = false)
     end
-    return ∪([traverse1(graph, updated_path, neighbour) for neighbour in valid_neighbours]...)
+    valid_neighbours = filter(candidate -> candidate != "start", neighbours(graph, next_vertex))
+    if !allow_small_cave_revisit
+        valid_neighbours = filter(
+            candidate -> cave_size(candidate) == "large" || candidate ∉ updated_path,
+            valid_neighbours
+        )
+        if length(valid_neighbours) == 0 # dead end
+            return Set{Vector{String}}()
+        end
+    end
+    branches = [
+        traverse(graph, updated_path, neighbour; allow_small_cave_revisit = allow_small_cave_revisit)
+        for neighbour in valid_neighbours
+    ]
+    return ∪(branches...)
 end
 
 function part1(input = input)
-    input |> Graph |> traverse1 |> length
-end
-
-function can_visit_small_cave_twice(path::Vector{String})
-    small_caves = filter(vertex -> lowercase(vertex) == vertex, path)
-    unique(small_caves) == small_caves
-end
-
-function traverse2(
-    graph::Graph,
-    path_so_far = Vector{String}(),
-    next_vertex = "start",
-)
-    updated_path = [path_so_far; next_vertex]
-    if !can_visit_small_cave_twice(updated_path)
-        return traverse1(graph, path_so_far, next_vertex)
-    end
-    if next_vertex == "end"
-        return Set([updated_path])
-    end
-    valid_neighbours = filter(
-        neighbour -> neighbour != "start",
-        neighbours(graph, next_vertex)
-    )
-    return ∪([traverse2(graph, updated_path, neighbour) for neighbour in valid_neighbours]...)
+    traverse(
+        Graph(input);
+        allow_small_cave_revisit = false
+    ) |> length
 end
 
 function part2(input = input)
-    input |> Graph |> traverse2 |> length
+    traverse(
+        Graph(input);
+        allow_small_cave_revisit = true
+    ) |> length
 end
 
 end #module
