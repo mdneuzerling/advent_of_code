@@ -24,14 +24,13 @@ abstract type Packet end
 
 struct LiteralPacket <: Packet
     decoded::Int64
-    raw::String
     length::Int64
     version::Int64
+    type_id::Int64
 end
 
 struct OperatorPacket <: Packet
     subpackets::Vector{Packet}
-    raw::String
     length::Int64
     version::Int64
     type_id::Int64
@@ -67,9 +66,9 @@ function extract_literal_packet(packet_bitstring::AbstractString)
     decoded = [group[2:end] for group in groups] |> join |> decimal
     packet = LiteralPacket(
         decoded,
-        packet_bitstring[1:last_bit],
         last_bit,
-        version(packet_bitstring[1:last_bit])
+        version(packet_bitstring[1:last_bit]),
+        4
     )
     return packet, packet_bitstring[last_bit+1:end]
 end
@@ -110,7 +109,6 @@ function extract_operator_packet(packet_bitstring::AbstractString)
 
     packet = OperatorPacket(
         subpackets,
-        packet_bitstring,
         header_length + subpackets_length,
         version(packet_bitstring),
         type_id(packet_bitstring)
