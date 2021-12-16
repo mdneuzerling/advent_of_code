@@ -39,7 +39,6 @@ function dijkstra(heatmap::Matrix{Int64})
     counted = Vector{Tuple{Int64,Int64}}()
 
     while true
-        println("Counted $(length(counted)) vertices")
         risk, row, column = pop!(risk_from_source)
         vertex = (row, column)
         if vertex in counted
