@@ -50,8 +50,7 @@ function extract_packets(packet_bitstring::AbstractString)
 end
 
 function extract_next_packet(packet_bitstring::AbstractString)
-    type_id = packet_bitstring[4:6] |> decimal
-    if type_id == 4
+    if type_id(packet_bitstring) == 4
         return extract_literal_packet(packet_bitstring)
     else
         return extract_operator_packet(packet_bitstring)
