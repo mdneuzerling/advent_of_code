@@ -2,10 +2,13 @@ module Day16
 
 using DataStructures
 
+import Base.show
 import ..data_dir # from parent module
 input = read(joinpath(data_dir, "day16"), String)
 
 export part1, part2
+
+## Functions for defining packets from inputs
 
 # To avoid integer overflows, we convert each hex to a 4-character bitstring
 # individually, rather than converting hex to bits all at once
@@ -19,6 +22,8 @@ end
 decimal(bitstring::AbstractString) = parse(Int64, bitstring; base = 2)
 version(packet_bitstring::AbstractString) = packet_bitstring[1:3] |> decimal
 type_id(packet_bitstring::AbstractString) = packet_bitstring[4:6] |> decimal
+
+## Packet definitions
 
 abstract type Packet end
 
@@ -36,17 +41,45 @@ struct OperatorPacket <: Packet
     type_id::Int64
 end
 
-function extract_packets(packet_bitstring::AbstractString)
-    subpackets = Vector{Packet}()
-    remainder = packet_bitstring
-    while true
-        packet, remainder = extract_next_packet(remainder)
-        push!(subpackets, packet)
-        if length(remainder) == 0 || unique(remainder) == ['0']
-            return subpackets
-        end
+const type_id_function = Dict(
+    # Need to make it so that all functions work on vectors
+    0 => sum,
+    1 => prod,
+    2 => minimum,
+    3 => maximum,
+    # omit 4, which is reserved for literals
+    # the following only ever contain two packets
+    5 => x -> Int(>(x...)),
+    6 => x -> Int(<(x...)),
+    7 => x -> Int(==(x...)),
+)
+
+## Packet show functions
+
+const type_id_description = Dict(
+    0 => "+",
+    1 => "×",
+    2 => "min",
+    3 => "max",
+    5 => ">",
+    6 => "<",
+    7 => "=",
+)
+
+function show(io::IO, literal_packet::LiteralPacket; indent = 0)
+    print(io, repeat("  ", indent))
+    println(io, "$(literal_packet.decoded) <v$(literal_packet.version)>")
+end
+
+function show(io::IO, operator_packet::OperatorPacket; indent = 0)
+    print(io, repeat("  ", indent))
+    println(io, "$(type_id_description[operator_packet.type_id]) <v$(operator_packet.version)>")
+    for subpacket in operator_packet.subpackets
+        show(io, subpacket; indent = indent + 1)
     end
 end
+
+## Packet extractions
 
 function extract_next_packet(packet_bitstring::AbstractString)
     if type_id(packet_bitstring) == 4
@@ -117,29 +150,20 @@ function extract_operator_packet(packet_bitstring::AbstractString)
     return packet, remainder
 end
 
+# Functions for part 1
+
 sum_versions(packet::LiteralPacket) = packet.version
 sum_versions(packet::OperatorPacket) = packet.version + sum(sum_versions(subpacket) for subpacket in packet.subpackets)
 
 function part1(input = input)
     packet_bitstring = bits(input)
-    packets = extract_packets(packet_bitstring)
-    sum(sum_versions(packet) for packet in packets)
+    outermost_packet, _ = extract_next_packet(packet_bitstring) # _ is remainder
+    sum_versions(outermost_packet)
 end
 
-decode(packet::LiteralPacket) = packet.decoded
+# Functions for part 2
 
-const type_id_function = Dict(
-    # Need to make it so that all functions work on vectors
-    0 => sum,
-    1 => prod,
-    2 => minimum,
-    3 => maximum,
-    # omit 4, which is reserved for literals
-    # the following only ever contain two packets
-    5 => x -> Int(>(x...)),
-    6 => x -> Int(<(x...)),
-    7 => x -> Int(==(x...)),
-)
+decode(packet::LiteralPacket) = packet.decoded
 
 function decode(packet::OperatorPacket)
     operation = type_id_function[packet.type_id]
@@ -148,8 +172,7 @@ end
 
 function part2(input = input)
     packet_bitstring = bits(input)
-    packets = extract_packets(packet_bitstring)
-    outermost_packet = packets[1]
+    outermost_packet, _ = extract_next_packet(packet_bitstring) # _ is remainder
     decode(outermost_packet)
 end
 

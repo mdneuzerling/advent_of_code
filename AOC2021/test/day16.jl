@@ -1,28 +1,28 @@
 module TestDay16
 
-import AOC2021.Day16.part1, AOC2021.Day16.part2, AOC2021.Day16.bits, AOC2021.Day16.extract_packets
+import AOC2021.Day16.part1, AOC2021.Day16.part2, AOC2021.Day16.bits, AOC2021.Day16.extract_next_packet
 using Test
 
 @testset "Day 16 basics" begin
     @testset "basic literal" begin
         literal = "D2FE28"
         literal_bitstring = bits(literal)
-        packets = extract_packets(literal_bitstring)
-        @test packets[1].decoded == 2021
+        packet, _ = extract_next_packet(literal_bitstring)
+        @test packet.decoded == 2021
     end
     @testset "basic operator length bit type 0" begin
         operator = "38006F45291200"
         operator_bitstring = bits(operator)
-        packets = extract_packets(operator_bitstring)
-        literals = [packet for packet in packets[1].subpackets]
+        packet, _ = extract_next_packet(operator_bitstring)
+        literals = [packet for packet in packet.subpackets]
         @test literals[1].decoded == 10
         @test literals[2].decoded == 20
     end
     @testset "basic operator length bit type 1" begin
         operator = "EE00D40C823060"
         operator_bitstring = bits(operator)
-        packets = extract_packets(operator_bitstring)
-        literals = [packet for packet in packets[1].subpackets]
+        packet, _ = extract_next_packet(operator_bitstring)
+        literals = [packet for packet in packet.subpackets]
         @test literals[1].decoded == 1
         @test literals[2].decoded == 2
         @test literals[3].decoded == 3
