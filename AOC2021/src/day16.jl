@@ -1,7 +1,5 @@
 module Day16
 
-using DataStructures
-
 import Base.show
 import ..data_dir # from parent module
 input = read(joinpath(data_dir, "day16"), String)
