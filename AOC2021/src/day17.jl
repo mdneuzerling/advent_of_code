@@ -1,6 +1,6 @@
 module Day17
 
-import Base.in
+import Base.in, Base.>
 import ..data_dir # from parent module
 input = read(joinpath(data_dir, "day17"), String)
 
@@ -43,7 +43,7 @@ function in(probe::Probe, target_space::TargetSpace)
         (target_space.y_bottom <= probe.y <= target_space.y_top)
 end
 
-function beyond(probe::Probe, target_space::TargetSpace)
+function >(probe::Probe, target_space::TargetSpace)
     probe.x > target_space.x_right || probe.y < target_space.y_bottom
 end
 
@@ -55,7 +55,7 @@ function simple_brute_force(target_space::TargetSpace, search_space_length = 100
         probe = Probe(candidate...)
         while true
             step!(probe)
-            beyond(probe, target_space) && break
+            probe > target_space && break
             if probe ∈ target_space
                 push!(successes, candidate)
                 break
