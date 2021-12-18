@@ -27,6 +27,30 @@ function +(s1::Vector{SnailfishInteger}, s2::Vector{SnailfishInteger})
     new_s
 end
 
+function snailfish_parse(input::AbstractString)
+    result = Vector{SnailfishInteger}()
+    depth = 0
+    characters = split(input, "")
+    while length(characters) > 0
+        c = popfirst!(characters)
+        if c == "["
+            depth += 1
+        elseif c == "]"
+            depth -= 1
+        elseif c == ","
+            continue
+        else
+            digits_so_far = c
+            while length(characters) > 0 && characters[1] ∈ digits
+                digits_so_far = digits_so_far * popfirst!(characters)
+            end
+            snailfish_integer = SnailfishInteger(depth, parse(Int64, digits_so_far))
+            push!(result, snailfish_integer)
+        end
+    end
+    result
+end
+
 # Search left-to-right, replacing all side-by-side pairs of the same
 # depth with their magnitude, until only one value remains (the magnitude)
 function magnitude(s::Vector{SnailfishInteger})
@@ -52,43 +76,20 @@ function magnitude(s::Vector{SnailfishInteger})
     s_copy[1].value
 end
 
-function snailfish_parse(input::AbstractString)
-    result = Vector{SnailfishInteger}()
-    depth = 0
-    characters = split(input, "")
-    while length(characters) > 0
-        c = popfirst!(characters)
-        if c == "["
-            depth += 1
-        elseif c == "]"
-            depth -= 1
-        elseif c == ","
-            continue
-        else
-            digits_so_far = c
-            while length(characters) > 0 && characters[1] ∈ digits
-                digits_so_far = digits_so_far * popfirst!(characters)
-            end
-            snailfish_integer = SnailfishInteger(depth, parse(Int64, digits_so_far))
-            push!(result, snailfish_integer)
-        end
-    end
-    result
-end
-
 # lhs and rhs are left/right-hand side indices
 function explode!(s::Vector{SnailfishInteger})
-    for lhs = 1:length(s)-1
-        if s[lhs].depth > 4
-            rhs = lhs + 1 # right hand side
-            if lhs > 1
-                s[lhs-1].value += s[lhs].value
+    for lhs_index = 1:length(s)-1
+        if s[lhs_index].depth > 4
+            rhs_index = lhs_index + 1 # right hand side
+            if lhs_index > 1
+                s[lhs_index-1].value += s[lhs_index].value
             end
-            if rhs < length(s)
-                s[rhs+1].value += s[rhs].value
+            if rhs_index < length(s)
+                s[rhs_index+1].value += s[rhs_index].value
             end
-            deleteat!(s, rhs)
-            s[lhs] = SnailfishInteger(s[lhs].depth - 1, 0) # new element has decremented depth, value 0
+            deleteat!(s, rhs_index)
+            # new element has decremented depth, value 0
+            s[lhs_index] = SnailfishInteger(s[lhs_index].depth - 1, 0)
             return true
         end
     end
