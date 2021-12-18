@@ -18,7 +18,7 @@ function ==(s1::SnailfishInteger, s2::SnailfishInteger)
 end
 
 function +(s1::Vector{SnailfishInteger}, s2::Vector{SnailfishInteger})
-    # Without the deepcopies, `numbers` gets modified
+    # Without the deepcopies, `s1` and `s2` get modified by `reduce!`
     new_s = vcat(deepcopy(s1), deepcopy(s2))
     for i in new_s
         i.depth += 1
