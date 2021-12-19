@@ -69,10 +69,8 @@ function magnitude(s::Vector{SnailfishInteger})
             if i == length(s_copy) - 1
                 throw(ArgumentError("No pairs found"))
             end
-            # print(join(s, "\n"), "\n", "\n")
         end
     end
-    # Only one SnailfishInteger remains, and its value is the magnitude
     s_copy[1].value
 end
 
