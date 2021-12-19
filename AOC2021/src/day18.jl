@@ -131,17 +131,20 @@ end
 
 function part2(input = input)
     numbers = snailfish_parse.(split(input, "\n"))
-    magnitudes = Vector{Int64}()
+    max_magnitude = 0
     for i = 1:length(numbers)
         for j = 1:length(numbers)
             if i == j
                 continue
             end
-            push!(magnitudes, magnitude(numbers[i] + numbers[j]))
-            push!(magnitudes, magnitude(numbers[j] + numbers[i]))
+            max_magnitude = maximum([
+                max_magnitude,
+                magnitude(numbers[i] + numbers[j]),
+                magnitude(numbers[j] + numbers[i])
+            ])
         end
     end
-    maximum(magnitudes)
+    max_magnitude
 end
 
 end #module
