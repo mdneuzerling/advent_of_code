@@ -33,13 +33,7 @@ function pixel(m::Matrix{Int8}, row::Int, column::Int, default::Int8)
 end
 
 function neighbourhood(m::Matrix{Int8}, row::Int, column::Int, default::Int8)
-    neighbours = Vector{Int8}()
-    for i = row-1:row+1
-        for j = column-1:column+1
-            push!(neighbours, pixel(m, i, j, default))
-        end
-    end
-    return neighbours
+    [pixel(m, i, j, default) for i = row-1:row+1 for j = column-1:column+1]
 end
 
 function neighbourhood_hash(m::Matrix{Int8}, row::Int, column::Int, default::Int8)
