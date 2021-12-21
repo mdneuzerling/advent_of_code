@@ -102,9 +102,7 @@ end
 function part2(input = input)
     players = parse_players(input)
     sort!(players, by = p -> p.number)
-    player_1_position = players[1].position
-    player_2_position = players[2].position
-    wins = dirac_dice_game(player_1_position, player_2_position)
+    wins = dirac_dice_game(players[1].position, players[2].position)
     maximum(wins)
 end
 
