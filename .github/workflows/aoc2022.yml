@@ -17,14 +17,8 @@ jobs:
           toolchain: 1.65.0
           override: true
 
-      - name: Test AOC2022 Day 01 Part 1
+      - name: Test AOC2022 workspace
         uses: actions-rs/cargo@v1
         with:
           command: test
-          args: --manifest-path=AOC2022/day01/day01a/Cargo.toml
-
-      - name: Test AOC2022 Day 01 Part 2
-        uses: actions-rs/cargo@v1
-        with:
-          command: test
-          args: --manifest-path=AOC2022/day01/day01b/Cargo.toml
+          args: --workspace --manifest-path=AOC2022/Cargo.toml
