@@ -1,4 +1,5 @@
-![Unit tests](https://github.com/mdneuzerling/advent_of_code/actions/workflows/aoc2021.yml/badge.svg)
+![AOC2021](https://github.com/mdneuzerling/advent_of_code/actions/workflows/aoc2021.yml/badge.svg)
+![AOC2022](https://github.com/mdneuzerling/advent_of_code/actions/workflows/aoc2022.yml/badge.svg)
 
 # Advent of Code puzzle solutions
 
