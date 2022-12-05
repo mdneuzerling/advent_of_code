@@ -6,6 +6,8 @@ These are my personal solutions to the [Advent of Code](https://adventofcode.com
 
 AOC2021 solutions are written in [Julia](https://julialang.org/). I'm still a beginner of Julia --- my usual language of choice is R, and occasionally Python. View more of my work at my blog, [mdneuzerling.com](https://mdneuzerling.com).
 
+AOC2022 solutions are in Rust.
+
 ---
 
 ## 2021
@@ -37,3 +39,9 @@ AOC2021 solutions are written in [Julia](https://julialang.org/). I'm still a be
 | [Day 23](https://adventofcode.com/2021/day/23) |   |   |
 | [Day 24](https://adventofcode.com/2021/day/24) |   |   |
 | [Day 25](https://adventofcode.com/2021/day/25) |   |   |
+
+## 2022
+
+| Day | Part 1 | Part 2 |
+| :---: | :---: | :---: |
+| [Day 1](https://adventofcode.com/2022/day/1)   | ⭐ | ⭐ |
