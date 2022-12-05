@@ -5,7 +5,7 @@ mod tests {
     use super::*;
 
     #[test]
-    fn it_works() {
+    fn aoc_example() {
         let result = solve(include_str!("../../test.txt"));
         assert_eq!(result, 45000);
     }
@@ -25,7 +25,6 @@ fn solve(input: &str) -> i32 {
         .collect::<Vec<i32>>();
     calories.sort_by(|a, b| b.cmp(a));
     calories.truncate(3);
-    // let calories_sorted = calories.collect::<Vec<i32>>().sort_by(|a, b| b.cmp(a));
     return calories.iter().sum();
 }
 
