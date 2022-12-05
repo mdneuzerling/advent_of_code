@@ -19,14 +19,12 @@ jobs:
 
       - name: Test AOC2022 Day 01 Part 1
         uses: actions-rs/cargo@v1
-        working-directory: ./
         with:
           command: test
           args: --manifest-path=AOC2022/day01/day01a/Cargo.toml
 
       - name: Test AOC2022 Day 01 Part 2
         uses: actions-rs/cargo@v1
-        working-directory: ./
         with:
           command: test
           args: --manifest-path=AOC2022/day01/day01b/Cargo.toml
