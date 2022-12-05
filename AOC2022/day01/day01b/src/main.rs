@@ -7,7 +7,7 @@ mod tests {
     #[test]
     fn aoc_example() {
         let result = solve(include_str!("../../test.txt"));
-        assert_eq!(result, 45000);
+        assert_eq!(result, 42);
     }
 }
 
